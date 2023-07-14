@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "ES6",
+      "DOM"
+    ], // Depending on your code, you might not need "DOM"
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "target": "ES6",
+    "outDir": "./dist",
+    "esModuleInterop": true
+  },
+  "include": [
+    "./src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

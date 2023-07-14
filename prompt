@@ -1,0 +1,158 @@
+Please write a scraper that runs every morning at 9am EST that will do the following:
+
+1. Log in to this URL with a username and password that I will provide via a .env file: https://app.proxyclick.com/login. 
+
+.env file will look like this
+
+EMAIL=wrante@gmail.com
+PASSWORD=password
+
+This is what the relevant HTML looks like on the login page:
+
+<form ng-submit="$ctrl.login($ctrl.username, $ctrl.password)" class="ng-valid ng-dirty ng-valid-parse">
+        <div class="u-margin-bottom-xs">
+          <label class="c-label" for="input-username">Email</label>
+          <input ng-model="$ctrl.username" class="c-input ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" type="text" autocomplete="email" id="input-username" autofocus="">
+        <div data-lastpass-icon-root="true" style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"></div></div>
+
+        <div class="u-margin-bottom-xs">
+          <label class="c-label" for="input-password">Password</label>
+          <input ng-model="$ctrl.password" class="c-input ng-valid ng-not-empty ng-dirty ng-valid-parse ng-touched" type="password" autocomplete="current-password" id="input-password">
+        <div data-lastpass-icon-root="true" style="position: relative !important; height: 0px !important; width: 0px !important; float: left !important;"></div></div>
+
+        <div class="u-margin-top-s u-text-weight-medium">
+          <pxc-checkbox-wrap label="common_login_rememberMe" no-margin="true" class="ng-isolate-scope c-checkbox-field c-checkbox-field--undefined"><div class="c-checkbox-field__control u-margin-all-none" ng-class="{'u-margin-all-none': $ctrl.noMargin}">
+  <label>
+    <ng-transclude>
+            <input type="checkbox" ng-model="$ctrl.rememberMe" class="ng-pristine ng-untouched ng-valid ng-scope ng-empty">
+          </ng-transclude>
+    <span tabindex="0" class="c-checkbox__skin c-checkbox-field__input"></span>
+    <span class="c-checkbox-field__label ng-binding">Remember me</span>
+  </label>
+  <!-- ngIf: $ctrl.paywall -->
+  <!-- ngIf: $ctrl.tooltip -->
+  <ng-transclude ng-transclude-slot="contentRight"></ng-transclude>
+</div>
+</pxc-checkbox-wrap>
+        </div>
+
+        <div class="u-margin-top-gutter">
+          <button type="submit" ng-disabled="$ctrl.loggingIn" class="c-button c-button--primary c-button--fluid">
+            <!-- ngIf: $ctrl.loggingIn -->&nbsp;<span translate="common_login_login_button" class="ng-scope">Log in</span>
+          </button>
+        </div>
+
+        <div class="u-align-center u-margin-top-gutter">
+          <a ui-sref="unauth.reset-password({email: $ctrl.username})" class="c-link c-link--muted c-link--no-history ng-scope" translate="common_login_forgottenPassword" href="/forgot-password">Forgot your password?</a>
+        </div>
+      </form>
+
+2. Click a button that says "New Visit". This is what the relevant HTML looks like on that page:
+
+<a pxc-if-has-right="vm_group_create || vm_visitor_create" ng-click="$ctrl.goToNewVisit()" class="c-button c-button--primary" pxc-tracker="logbook-new-visit-button">
+  <span translate="vm_list_create_button" class="ng-scope">New visit</span>
+</a>
+
+3. Types out a visitors name "Oliver Switzer" in an input field with label "Visitor". Relevant HTML for the input:
+
+<pxc-enhanced-typeahead on-selected="$ctrl.onSelected(item, term)" options-provider="$ctrl.getVisitors(term, page, pageSize)" formatter="$ctrl.dropdownFormatter(item, term)" placeholder="vm_new_visit_choose_visitor_placeholder" class="ng-isolate-scope"><div class="pxc-enhanced-typeahead">
+  <div class="c-input">
+    <input type="text" class="c-input c-input--naked" autocomplete="off" pxc-focus-me="true" placeholder="Type visitor name" id="pxc-enhanced-typeahead">
+    <!-- ngIf: $ctrl.loading -->
+  </div>
+  <!-- ngIf: $ctrl.filteredItems.length > 1 -->
+  <ul class="pxc-list pxc-enhanced-typeahead__list u-margin-top-s">
+    <!-- ngRepeat: item in $ctrl.filteredItems track by $index -->
+    <!-- ngIf: $ctrl.moreToShow > 0 -->
+  </ul>
+</div>
+</pxc-enhanced-typeahead>
+
+Once the input is typed in, this is the drop down HTML of results. You must click "Oliver Switzer" to continue. 
+
+<li ng-repeat="item in $ctrl.filteredItems track by $index" class="pxc-list__item pxc-list__item--image uib-typeahead-match u-border-all ng-scope pxc-list__item--selected pxc-enhanced-typeahead__item--selected" ng-class="{'pxc-list__item--selected pxc-enhanced-typeahead__item--selected': $ctrl.isActive($index), 'u-border-bottom-none': !$last }" ng-mouseenter="$ctrl.selectedIndex = $index" ng-click="$ctrl.onSelected({ item: item, term: $ctrl.savedTerm })" id="pxc-enhanced-typeahead-item-1">
+      <!-- ngInclude: --><ng-include src="'enhanced-typeahead/item.html'" class="ng-scope"><div class="pxc-enhanced-typeahead__item ng-scope" ng-class="{'pxc-visitor-selector__new-visit-item': !item.lastname}">
+  <!-- ngIf: item.picture64 --><div ng-if="item.picture64" class="pxc-visitor-selector__avatar ng-scope">
+    <pxc-round-image src="item.picture64" class="ng-isolate-scope pxc-round-image" style="background-image: url(&quot;https://static.proxyclick.com/_/app/img/vm-visitor-avatar.png&quot;);"></pxc-round-image>
+  </div><!-- end ngIf: item.picture64 -->
+  <!-- ngIf: !item.picture64 -->
+  <div class="pxc-list__text">
+    <strong ng-bind-html="item | pxcUserName | highlight:$ctrl.savedTerm" class="ng-binding"><span class="ui-select-highlight">Oliver</span> Switzer</strong>
+    <!-- ngIf: item.companyName -->
+  </div>
+  <div class="pxc-enhanced-typeahead__enter-key-indicator">
+    <span translate="common_key_enter" class="ng-scope">Enter</span>
+    <br>
+    <pxc-svg-icon icon="enter-key" size="10"><svg fill="rgb(27, 75, 197)" color="rgb(27, 75, 197)" class="ng-scope" style="width: 10px; height: 10px;">
+                <use xlink:href="#legacy-enter-key"></use>
+            </svg></pxc-svg-icon>
+  </div>
+</div>
+</ng-include>
+    </li>
+
+4. Adjust the date and time of this form field to be 9am EST
+
+<pxc-date-range-selector class="pxc-visit-form__date-selector ng-isolate-scope" ng-class="{'pxc-date-range-selector--open': $ctrl.schedule.isRecurring}" disable-date="$ctrl.options.date.disabled" disable-time="$ctrl.options.time.disabled"><div class="pxc-date-range-selector js-date-range-selector dropdown pxc-date-range-selector--open open" ng-class="{'pxc-date-range-selector--open': $ctrl.isDropdownOpen}" uib-dropdown="" auto-close="outsideClick" on-toggle="$ctrl.onToggleDropdown(open)" is-open="$ctrl.isDropdownOpen">
+  <button type="button" class="pxc-date-range-selector__dropdown-toggle dropdown-toggle--default-outline u-cursor-pointer" uib-dropdown-toggle="" ng-class="{'dropdown-toggle': $ctrl.shouldHaveDropdownToggleClass}" tabindex="0" ng-keydown="$ctrl.onButtonKeyDown($event)" ng-disabled="$ctrl.disableTime &amp;&amp; $ctrl.disableDate" aria-haspopup="true" aria-expanded="true">
+    <div class="pxc-date-range-selector__row pxc-div-table pxc-div-table--middle">
+      <div class="pxc-div-table__cell pxc-div-table__cell-6 pxc-date-range-selector__cell--with-border p-x-1 ng-binding" ng-class="{'pxc-date-range-selector__cell--disabled': $ctrl.disableDate}">
+        07/13/2023
+        <!-- ngIf: !$ctrl.disableDate --><div ng-if="!$ctrl.disableDate" class="pull-right ng-scope">
+          <i class="fal fa-chevron-down"></i>
+        </div><!-- end ngIf: !$ctrl.disableDate -->
+      </div>
+      <div class="pxc-div-table__cell pxc-div-table__cell-3 pxc-date-range-selector__cell--with-border u-align-center p-x-1 ng-binding" ng-class="{'pxc-date-range-selector__cell--disabled': $ctrl.disableTime}">
+        11:45 PM
+      </div>
+      <div class="pxc-div-table__cell pxc-div-table__cell-3 u-align-center p-x-1 ng-binding" ng-class="{'pxc-date-range-selector__cell--disabled': $ctrl.disableTime}">
+        01:45 AM +1
+        <!-- ngIf: !$ctrl.disableTime --><div ng-if="!$ctrl.disableTime" class="pull-right ng-scope">
+          <i class="fal fa-chevron-down"></i>
+        </div><!-- end ngIf: !$ctrl.disableTime -->
+      </div>
+    </div>
+  </button>
+  <div uib-dropdown-menu="" class="pxc-date-range-selector__dropdown-menu dropdown-menu">
+    <div class="pxc-date-range-selector__dropdown-menu-inner">
+      <div ng-click="$ctrl.onDropdownWrapperClick($event)">
+        <!-- ngIf: $ctrl.options --><pxc-datepicker ng-if="$ctrl.options" inline="true" options="$ctrl.options" ng-model="$ctrl.date" ng-change="$ctrl.onDateChange()" name="date" disable="$ctrl.disableDate" pxc-bypass-validator="dateDisabled" pxc-bypass-validator-enabled="$ctrl.disableDate" class="ng-pristine ng-untouched ng-valid ng-scope ng-isolate-scope ng-not-empty ng-valid-date-disabled"><input class="form-control pxc-datepicker-inline__input flatpickr-input" data-input="" type="hidden" value="2023-07-13"><input class="form-control pxc-datepicker-inline__input " placeholder="" tabindex="0" type="text" readonly="readonly"><div class="flatpickr-calendar animate inline" tabindex="-1"><div class="flatpickr-months"><span class="flatpickr-prev-month flatpickr-disabled"><i class="fal fa-chevron-left"></i></span><div class="flatpickr-month"><div class="flatpickr-current-month"><select class="flatpickr-monthDropdown-months" aria-label="Month" tabindex="-1"><option class="flatpickr-monthDropdown-month" value="6" tabindex="-1">July</option><option class="flatpickr-monthDropdown-month" value="7" tabindex="-1">August</option><option class="flatpickr-monthDropdown-month" value="8" tabindex="-1">September</option><option class="flatpickr-monthDropdown-month" value="9" tabindex="-1">October</option><option class="flatpickr-monthDropdown-month" value="10" tabindex="-1">November</option><option class="flatpickr-monthDropdown-month" value="11" tabindex="-1">December</option></select><div class="numInputWrapper"><input class="numInput cur-year" type="number" tabindex="-1" aria-label="Year" min="2023"><span class="arrowUp"></span><span class="arrowDown"></span></div></div></div><span class="flatpickr-next-month"><i class="fal fa-chevron-right"></i></span></div><div class="flatpickr-innerContainer"><div class="flatpickr-rContainer"><div class="flatpickr-weekdays"><div class="flatpickr-weekdaycontainer">
+      <span class="flatpickr-weekday">
+        Sun</span><span class="flatpickr-weekday">Mon</span><span class="flatpickr-weekday">Tue</span><span class="flatpickr-weekday">Wed</span><span class="flatpickr-weekday">Thu</span><span class="flatpickr-weekday">Fri</span><span class="flatpickr-weekday">Sat
+      </span>
+      </div></div><div class="flatpickr-days" tabindex="-1"><div class="dayContainer"><span class="flatpickr-day prevMonthDay flatpickr-disabled" aria-label="June 25, 2023">25</span><span class="flatpickr-day prevMonthDay flatpickr-disabled" aria-label="June 26, 2023">26</span><span class="flatpickr-day prevMonthDay flatpickr-disabled" aria-label="June 27, 2023">27</span><span class="flatpickr-day prevMonthDay flatpickr-disabled" aria-label="June 28, 2023">28</span><span class="flatpickr-day prevMonthDay flatpickr-disabled" aria-label="June 29, 2023">29</span><span class="flatpickr-day prevMonthDay flatpickr-disabled" aria-label="June 30, 2023">30</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 1, 2023">1</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 2, 2023">2</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 3, 2023">3</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 4, 2023">4</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 5, 2023">5</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 6, 2023">6</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 7, 2023">7</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 8, 2023">8</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 9, 2023">9</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 10, 2023">10</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 11, 2023">11</span><span class="flatpickr-day flatpickr-disabled" aria-label="July 12, 2023">12</span><span class="flatpickr-day today selected" aria-label="July 13, 2023" aria-current="date" tabindex="-1">13</span><span class="flatpickr-day " aria-label="July 14, 2023" tabindex="-1">14</span><span class="flatpickr-day " aria-label="July 15, 2023" tabindex="-1">15</span><span class="flatpickr-day " aria-label="July 16, 2023" tabindex="-1">16</span><span class="flatpickr-day " aria-label="July 17, 2023" tabindex="-1">17</span><span class="flatpickr-day " aria-label="July 18, 2023" tabindex="-1">18</span><span class="flatpickr-day " aria-label="July 19, 2023" tabindex="-1">19</span><span class="flatpickr-day " aria-label="July 20, 2023" tabindex="-1">20</span><span class="flatpickr-day " aria-label="July 21, 2023" tabindex="-1">21</span><span class="flatpickr-day " aria-label="July 22, 2023" tabindex="-1">22</span><span class="flatpickr-day " aria-label="July 23, 2023" tabindex="-1">23</span><span class="flatpickr-day " aria-label="July 24, 2023" tabindex="-1">24</span><span class="flatpickr-day " aria-label="July 25, 2023" tabindex="-1">25</span><span class="flatpickr-day " aria-label="July 26, 2023" tabindex="-1">26</span><span class="flatpickr-day " aria-label="July 27, 2023" tabindex="-1">27</span><span class="flatpickr-day " aria-label="July 28, 2023" tabindex="-1">28</span><span class="flatpickr-day " aria-label="July 29, 2023" tabindex="-1">29</span><span class="flatpickr-day " aria-label="July 30, 2023" tabindex="-1">30</span><span class="flatpickr-day " aria-label="July 31, 2023" tabindex="-1">31</span><span class="flatpickr-day nextMonthDay" aria-label="August 1, 2023" tabindex="-1">1</span><span class="flatpickr-day nextMonthDay" aria-label="August 2, 2023" tabindex="-1">2</span><span class="flatpickr-day nextMonthDay" aria-label="August 3, 2023" tabindex="-1">3</span><span class="flatpickr-day nextMonthDay" aria-label="August 4, 2023" tabindex="-1">4</span><span class="flatpickr-day nextMonthDay" aria-label="August 5, 2023" tabindex="-1">5</span></div></div></div></div></div>
+</pxc-datepicker><!-- end ngIf: $ctrl.options -->
+      </div>
+      <div class="pxc-date-range-selector__times">
+        <label class="c-label ng-scope" translate="common_datepicker_range_from">From</label>
+        <select class="c-select ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="$ctrl.schedule.from" ng-on-change="$ctrl.onFromChange($event)" ng-disabled="$ctrl.disableTime">
+          <!-- ngRepeat: time in $ctrl.schedule.fromOptions --><option ng-repeat="time in $ctrl.schedule.fromOptions" ng-value="0" class="ng-binding ng-scope" value="number:0">
+            12:00 AM
+          </option><!-- end ngRepeat: time in $ctrl.schedule.fromOptions --><option ng-repeat="time in $ctrl.schedule.fromOptions" ng-value="15" class="ng-binding ng-scope" value="number:15">
+            12:15 AM
+          </option><!-- end ngRepeat: time in $ctrl.schedule.fromOptions --><option ng-repeat="time in $ctrl.schedule.fromOptions" ng-value="30" class="ng-binding ng-scope" value="number:30">
+            12:30 AM
+          </option><!-- end ngRepeat: time in $ctrl.schedule.fromOptions --><option ng-repeat="time in $ctrl.schedule.fromOptions" ng-value="45" class="ng-binding ng-scope" value="number:45">
+            12:45 AM
+        </select>
+        <label class="c-label ng-scope" translate="common_datepicker_range_to">To</label>
+        <select class="c-select ng-pristine ng-untouched ng-valid ng-not-empty" ng-model="$ctrl.schedule.to" ng-on-change="$ctrl.onToChange($event)" ng-blur="$ctrl.onToTimeBlur($event)" ng-disabled="$ctrl.disableTime">
+          <!-- ngRepeat: time in $ctrl.schedule.toOptions --><option ng-repeat="time in $ctrl.schedule.toOptions" ng-value="1425" ng-disabled="time < 0" class="ng-binding ng-scope" value="number:1425">
+            11:45 PM
+          </option><!-- end ngRepeat: time in $ctrl.schedule.toOptions --><option ng-repeat="time in $ctrl.schedule.toOptions" ng-value="-1" ng-disabled="time < 0" class="ng-binding ng-scope" value="number:-1" disabled="disabled">
+            ------
+          </option><!-- end ngRepeat: time in $ctrl.schedule.toOptions --><option ng-repeat="time in $ctrl.schedule.toOptions" ng-value="0" ng-disabled="time < 0" class="ng-binding ng-scope" value="number:0">
+            12:00 AM +1
+          </option><!-- end ngRepeat: time in $ctrl.schedule.toOptions --><option ng-repeat="time in $ctrl.schedule.toOptions" ng-value="1365" ng-disabled="time < 0" class="ng-binding ng-scope" value="number:1365">
+            10:45 PM +1
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+</pxc-date-range-selector>
+
+Please write the app in Typescript. 
+
+Use github actions to run this script at 9am every day.
+

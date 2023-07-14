@@ -1,0 +1,15 @@
+{
+  "name": "proxyclick-scraper",
+  "version": "1.0.0",
+  "description": "A scraper for Proxyclick",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "playwright": "^1.14.1",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}

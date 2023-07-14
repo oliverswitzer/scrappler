@@ -1,0 +1,121 @@
+The core classes, functions, and methods that will be necessary are:
+
+1. `Scrapper`: This class will encapsulate all the scraping logic. It will have methods for each step of the scraping process, such as `login`, `clickNewVisit`, `typeVisitorName`, and `adjustDateTime`.
+
+2. `dotenv`: This is a package that will be used to load environment variables from the .env file.
+
+3. `playwright`: This is a package that will be used to automate the browser for the scraping process.
+
+4. `main`: This function will be the entry point of the application. It will create an instance of the `Scrapper` class and call its methods in the correct order.
+
+Now, let's write the code for each file.
+
+**.env**
+```
+EMAIL=wrante@gmail.com
+PASSWORD=password
+```
+
+**scraper.ts**
+```typescript
+import { chromium, Browser, Page } from 'playwright';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
+class Scraper {
+  private browser: Browser;
+  private page: Page;
+
+  constructor() {}
+
+  async init() {
+    this.browser = await chromium.launch();
+    this.page = await this.browser.newPage();
+  }
+
+  async login() {
+    await this.page.goto('https://app.proxyclick.com/login');
+    await this.page.fill('input#input-username', process.env.EMAIL);
+    await this.page.fill('input#input-password', process.env.PASSWORD);
+    await this.page.click('button[type="submit"]');
+  }
+
+  async clickNewVisit() {
+    await this.page.click('a[pxc-tracker="logbook-new-visit-button"]');
+  }
+
+  async typeVisitorName() {
+    await this.page.fill('input#pxc-enhanced-typeahead', 'Oliver Switzer');
+    await this.page.click('li#pxc-enhanced-typeahead-item-1');
+  }
+
+  async adjustDateTime() {
+    await this.page.click('button.pxc-date-range-selector__dropdown-toggle');
+    await this.page.selectOption('select.c-select', { index: 36 }); // 9am
+  }
+
+  async close() {
+    await this.browser.close();
+  }
+}
+
+export default Scraper;
+```
+
+**index.ts**
+```typescript
+import Scraper from './scraper';
+
+async function main() {
+  const scraper = new Scraper();
+  await scraper.init();
+  await scraper.login();
+  await scraper.clickNewVisit();
+  await scraper.typeVisitorName();
+  await scraper.adjustDateTime();
+  await scraper.close();
+}
+
+main();
+```
+
+**package.json**
+```json
+{
+  "name": "proxyclick-scraper",
+  "version": "1.0.0",
+  "description": "A scraper for Proxyclick",
+  "main": "index.ts",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "playwright": "^1.14.1",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  }
+}
+```
+
+**.github/workflows/main.yml**
+```yaml
+name: Run scraper
+on:
+  schedule:
+    - cron: '0 9 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - run: npm ci
+    - run: npm run start
+```
+
+This setup will run the scraper every day at 9am UTC (which is 4am EST). If you want it to run at 9am EST, you should adjust the cron schedule to '0 14 * * *'.

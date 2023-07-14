@@ -1,7 +1,9 @@
 import { chromium, Browser, Page } from "playwright";
 import * as dotenv from "dotenv";
 
-dotenv.config();
+if (process.env.NODE_ENV !== "production") {
+  dotenv.config();
+}
 
 if (!process.env.PASSWORD || !process.env.EMAIL)
   throw new Error("EMAIL and PASSWORD must be set in .env");

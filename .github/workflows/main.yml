@@ -4,8 +4,9 @@ on:
   schedule:
     - cron: '0 14 * * *'
 jobs:
-  build:
+  scrape:
     runs-on: ubuntu-latest
+    environment: scrape-env
     steps:
     - uses: actions/checkout@v2
     - name: Use Node.js
@@ -13,4 +14,8 @@ jobs:
       with:
         node-version: '14'
     - run: npm ci
-    - run: npm run start
+    - run: echo hi && echo $EMAIL && npm run start
+      env:
+        PASSWORD: ${{ secrets.PASSWORD }}
+        EMAIL: ${{ secrets.EMAIL }}
+        NODE_ENV: production

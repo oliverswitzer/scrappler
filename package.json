@@ -4,7 +4,7 @@
   "description": "A scraper for Proxyclick",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node index.ts"
+    "scrape": "ts-node index.ts"
   },
   "dependencies": {
     "dotenv": "^10.0.0",

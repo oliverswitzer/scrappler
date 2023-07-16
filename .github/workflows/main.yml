@@ -1,7 +1,7 @@
 name: Run scraper
 on:
   schedule:
-    - cron: '0 14 * * *'
+    - cron: '0 13 * * *'
 jobs:
   scrape:
     runs-on: ubuntu-latest

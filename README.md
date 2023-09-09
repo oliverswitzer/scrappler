@@ -13,4 +13,4 @@ make run-local
 
 ### To run the remotely (on github actions)
 
-make run-remote
+`make run-remote`

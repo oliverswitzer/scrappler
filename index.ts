@@ -1,18 +1,8 @@
 import Scraper from "./scraper";
 
-const twentyMinutesInMillis = 1200000;
 async function main() {
-  const randomOffsetToSleepMillis = Math.trunc(
-    Math.random() * twentyMinutesInMillis
-  );
+  /* await wait(); */
 
-  console.log(
-    `Delaying executing of scrapping by a random offset of ${
-      randomOffsetToSleepMillis / 1000
-    } seconds`
-  );
-
-  await sleep(randomOffsetToSleepMillis);
   const scraper = await Scraper.create();
   await scraper.login();
   await scraper.clickNewVisit();
@@ -29,6 +19,20 @@ async function sleep(milliseconds: number) {
   return new Promise((res, rej) => {
     setTimeout(res, milliseconds);
   });
+}
+async function wait() {
+  const twentyMinutesInMillis = 1200000;
+  const randomOffsetToSleepMillis = Math.trunc(
+    Math.random() * twentyMinutesInMillis
+  );
+
+  console.log(
+    `Delaying executing of scrapping by a random offset of ${
+      randomOffsetToSleepMillis / 1000
+    } seconds`
+  );
+
+  return sleep(randomOffsetToSleepMillis);
 }
 
 main();

@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 12 * * 5'
 jobs:
-  scrape:
+  scrape-navy-yard:
     runs-on: ubuntu-latest
     environment: scrape-env
     steps:
@@ -14,8 +14,23 @@ jobs:
       with:
         node-version: '14'
     - run: npm ci
-    - run: npm run scrape 
+    - run: npm run navy-yard
       env:
-        PASSWORD: ${{ secrets.PASSWORD }}
-        EMAIL: ${{ secrets.EMAIL }}
+        NAVY_YARD_PASSWORD: ${{ secrets.NAVY_YARD_PASSWORD }}
+        NAVY_YARD_EMAIL: ${{ secrets.NAVY_YARD_EMAIL }}
+        NODE_ENV: production
+  scrape-wework:
+    runs-on: ubuntu-latest
+    environment: scrape-env
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - run: npm ci
+    - run: npm run wework
+      env:
+        WEWORK_YARD_PASSWORD: ${{ secrets.WEWORK_PASSWORD }}
+        WEWORK_YARD_EMAIL: ${{ secrets.WEWORK_EMAIL }}
         NODE_ENV: production

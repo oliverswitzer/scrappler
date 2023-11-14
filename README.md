@@ -8,7 +8,8 @@ Used to automatically create a pass for myself at the Brooklyn navy yard every d
 
 ```
 cp .env.sample .env   # Fill .env out
-make run-local
+npm run navy-yard
+npm run wework
 ```
 
 ### To run the remotely (on github actions)

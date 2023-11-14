@@ -4,7 +4,8 @@
   "description": "A scraper for Proxyclick",
   "main": "index.ts",
   "scripts": {
-    "scrape": "ts-node index.ts"
+    "navy-yard": "ts-node src/navy-yard",
+    "wework": "ts-node src/wework"
   },
   "dependencies": {
     "dotenv": "^10.0.0",

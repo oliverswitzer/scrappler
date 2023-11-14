@@ -5,7 +5,10 @@ if (process.env.NODE_ENV !== "production") {
   dotenv.config();
 }
 
-if (!process.env.PASSWORD || !process.env.EMAIL)
+const password = process.env.NAVY_YARD_PASSWORD;
+const email = process.env.NAVY_YARD_EMAIL;
+
+if (!email || !password)
   throw new Error("EMAIL and PASSWORD must be set in .env");
 
 class Scraper {
@@ -26,9 +29,6 @@ class Scraper {
   }
 
   async login() {
-    console.log("login");
-    const password = process.env.PASSWORD;
-    const email = process.env.EMAIL;
     if (!password || !email) {
       return;
     }

@@ -31,6 +31,6 @@ jobs:
     - run: npm ci
     - run: npm run wework
       env:
-        WEWORK_YARD_PASSWORD: ${{ secrets.WEWORK_PASSWORD }}
-        WEWORK_YARD_EMAIL: ${{ secrets.WEWORK_EMAIL }}
+        WEWORK_PASSWORD: ${{ secrets.WEWORK_PASSWORD }}
+        WEWORK_EMAIL: ${{ secrets.WEWORK_EMAIL }}
         NODE_ENV: production

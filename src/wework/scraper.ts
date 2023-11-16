@@ -22,7 +22,7 @@ class Scraper {
 
   static async create() {
     const browser = await chromium.launch({
-      headless: false, // Enable this if you want to see whats happening in a browser when the script runs
+      // headless: false, // Enable this if you want to see whats happening in a browser when the script runs
     });
     const page = await browser.newPage();
     return new Scraper(browser, page);

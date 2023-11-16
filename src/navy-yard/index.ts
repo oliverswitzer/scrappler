@@ -1,10 +1,10 @@
-import Scraper from "./scraper";
+import NavyYardScraper from "./NavyYardScraper";
 import { randomDelay } from "../utils/randomDelay";
 
 async function main() {
   await randomDelay(15000);
 
-  const scraper = await Scraper.create();
+  const scraper = await NavyYardScraper.create();
   await scraper.login();
   await scraper.clickNewVisit();
   await scraper.typeVisitorName();

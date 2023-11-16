@@ -1,15 +1,13 @@
-import Scraper from "./scraper";
+import WeWorkScraper from "./WeWorkScraper";
 import { randomDelay } from "../utils/randomDelay";
 
 async function main() {
-  await randomDelay(15000);
+  await randomDelay(process.env.NODE_ENV == "production" ? 15000 : 0);
 
-  const scraper = await Scraper.create();
+  const scraper = await WeWorkScraper.create();
   await scraper.login();
   await scraper.bookDesk();
   await scraper.close();
-
-  console.log("Succesfully created a new WeWork visit for Oliver");
 }
 
 main();

@@ -1,5 +1,5 @@
-import { chromium, Browser, Page } from "playwright";
 import * as dotenv from "dotenv";
+import { BaseScraper } from "../utils/BaseScraper";
 
 if (process.env.NODE_ENV !== "production") {
   dotenv.config();
@@ -11,23 +11,7 @@ const email = process.env.NAVY_YARD_EMAIL;
 if (!email || !password)
   throw new Error("EMAIL and PASSWORD must be set in .env");
 
-class Scraper {
-  private browser: Browser;
-  private page: Page;
-
-  private constructor(browser: Browser, page: Page) {
-    this.browser = browser;
-    this.page = page;
-  }
-
-  static async create() {
-    const browser = await chromium.launch({
-      // headless: false, // Enable this if you want to see whats happening in a browser when the script runs
-    });
-    const page = await browser.newPage();
-    return new Scraper(browser, page);
-  }
-
+export default class NavyYardScraper extends BaseScraper {
   async login() {
     if (!password || !email) {
       return;
@@ -79,5 +63,3 @@ class Scraper {
     await this.browser.close();
   }
 }
-
-export default Scraper;

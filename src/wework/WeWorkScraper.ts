@@ -1,4 +1,4 @@
-import { chromium, Browser, Page } from "playwright";
+import { BaseScraper } from "../utils/BaseScraper";
 import * as dotenv from "dotenv";
 
 if (process.env.NODE_ENV !== "production") {
@@ -11,24 +11,11 @@ const email = process.env.WEWORK_EMAIL;
 if (!email || !password)
   throw new Error("WeWork EMAIL and PASSWORD must be set in .env");
 
-class Scraper {
-  private browser: Browser;
-  private page: Page;
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  private constructor(browser: Browser, page: Page) {
-    this.browser = browser;
-    this.page = page;
-  }
-
-  static async create() {
-    const browser = await chromium.launch({
-      // headless: false, // Enable this if you want to see whats happening in a browser when the script runs
-    });
-    const page = await browser.newPage();
-    return new Scraper(browser, page);
-  }
-
+export default class WeWorkScraper extends BaseScraper {
   async login() {
+    console.log("Logging in to WeWork...");
     if (!email || !password) return;
 
     await this.page.goto(
@@ -40,19 +27,33 @@ class Scraper {
     await this.page.getByPlaceholder("Email address").press("Tab");
     await this.page.getByPlaceholder("Password").fill(password);
     await this.page.getByLabel("Continue").click();
+
+    console.log("Successfully logged in to WeWork");
   }
 
   async bookDesk() {
+    console.log("Booking a desk...");
+
     await this.page.getByRole("button", { name: "Book space" }).click();
     await this.page.getByRole("link", { name: "Desks" }).click();
-    await this.page.getByRole("button", { name: "Book a desk" }).click();
+
+    // Seemingly necessary to wait for the selectors in the eval below to be present...
+    await delay(10000);
+
+    const res = await this.page.evaluate(async () => {
+      // @ts-ignore
+      document
+        .querySelectorAll(".book-desk-button")[0]
+        .dispatchEvent(new Event("click"));
+    });
+
     await this.page.getByRole("button", { name: "Book for 0 credits" }).click();
     await this.page.getByRole("button", { name: "Done" }).click();
+
+    console.log("Successfully booked desk at WeWork!");
   }
 
   async close() {
     await this.browser.close();
   }
 }
-
-export default Scraper;

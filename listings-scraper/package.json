@@ -1,0 +1,21 @@
+{
+  "name": "listings-scraper",
+  "version": "1.0.0",
+  "description": "A scraper for scraping apartment rental listings",
+  "main": "index.ts",
+  "scripts": {
+    "listings-scraper": "ts-node index"
+  },
+  "dependencies": {
+    "firebase": "^10.7.1",
+    "firebase-admin": "^12.0.0",
+    "parsecurrency": "^1.1.0",
+    "playwright": "^1.14.1",
+    "shared": "file:../shared",
+    "ts-node": "^10.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.5",
+    "@types/parsecurrency": "^1.0.2"
+  }
+}

@@ -1,0 +1,3 @@
+# copy contents from 1password item labeled "Rental Budy Scrapper envrc (DEV)"
+
+export ENCRYPTED_SA_KEY=<in 1Password>

@@ -15,8 +15,18 @@ Be sure to follow any prompts to modify your shell init scripts.
 Then, in each project directory, run:
 
 ```
-cp .envrc.sample .envrc   # Fill .envrc out based on the sample file
+cp .envrc.sample .envrc
 ```
+
+Fill .envrc out based on the sample file. Then run:
+
+```
+make install
+```
+
+To install npm deps and playwright browsers for each project.
+
+Please follow instructions in individual project READMEs for how to run scrapers.
 
 ### Running remotely
 

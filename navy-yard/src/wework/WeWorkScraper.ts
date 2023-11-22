@@ -47,8 +47,4 @@ export default class WeWorkScraper extends BaseScraper {
 
     console.log("Successfully booked desk at WeWork!");
   }
-
-  async close() {
-    await this.browser.close();
-  }
 }

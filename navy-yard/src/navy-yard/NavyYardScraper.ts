@@ -53,8 +53,4 @@ export default class NavyYardScraper extends BaseScraper {
 
     await this.page.waitForTimeout(1500);
   }
-
-  async close() {
-    await this.browser.close();
-  }
 }

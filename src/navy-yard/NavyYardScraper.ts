@@ -46,7 +46,7 @@ export default class NavyYardScraper extends BaseScraper {
 
   async selectBuilding() {
     console.log("selectBuilding");
-    await this.page.getByText("[Select]").nth(1).click();
+    await this.page.getByText("Navy Yard Parking Lot").click();
     await this.page.getByText("Building 77").click();
     console.log("selectBuilding End");
   }

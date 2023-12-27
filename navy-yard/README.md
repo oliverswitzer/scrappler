@@ -1,32 +1,16 @@
 # BK Navy Yard Scraper
 
-Used to automatically create a pass for myself at the Brooklyn navy yard every day :)
+Used to automatically create a WeWork and Navy Yard pass for myself at the Brooklyn :)
 
 # Usage
 
 ### To run locally:
 
-First, install direnv to automatically source .envrc files:
+First ensure you've installed direnv according to the [top-level README.md](../README.md)
 
-```
-brew install direnv
-```
-
-Be sure to follow any prompts to modify your shell init scripts.
-
-Then, run:
-
-```
-cp .envrc.sample .envrc   # Fill .envrc out based on the sample file
-```
-
-To run either scraping script:
+Then, to run either scraping script:
 
 ```
 npm run navy-yard
 npm run wework
 ```
-
-### To run the remotely (on github actions)
-
-`make run-remote`

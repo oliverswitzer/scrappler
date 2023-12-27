@@ -1,3 +1,3 @@
-run-remote:
-	gh workflow run 'Run scraper'
+run-navy-yard-remote:
+	gh workflow run 'Run navy yard scraper'
 

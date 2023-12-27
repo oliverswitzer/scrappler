@@ -13,8 +13,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-    - run: npm ci
-    - run: npm run navy-yard
+    - run: cd navy-yard && npm ci && npm run navy-yard
       env:
         NAVY_YARD_PASSWORD: ${{ secrets.NAVY_YARD_PASSWORD }}
         NAVY_YARD_EMAIL: ${{ secrets.NAVY_YARD_EMAIL }}
@@ -28,8 +27,7 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-    - run: npm ci
-    - run: npm run wework
+    - run: cd navy-yard && npm ci && npm run wework
       env:
         WEWORK_PASSWORD: ${{ secrets.WEWORK_PASSWORD }}
         WEWORK_EMAIL: ${{ secrets.WEWORK_EMAIL }}

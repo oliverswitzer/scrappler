@@ -13,8 +13,10 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-    - run: pushd shared && npm ci && popd
-    - run: cd navy-yard && npm ci && npm run navy-yard
+    - run: npm ci && npx playwright install --with-deps chromium
+      working-directory: shared
+    - run: npm ci && npm run navy-yard
+      working-directory: navy-yard
       env:
         NAVY_YARD_PASSWORD: ${{ secrets.NAVY_YARD_PASSWORD }}
         NAVY_YARD_EMAIL: ${{ secrets.NAVY_YARD_EMAIL }}
@@ -28,8 +30,10 @@ jobs:
       uses: actions/setup-node@v2
       with:
         node-version: '14'
-    - run: pushd shared && npm ci && popd
-    - run: cd navy-yard && npm ci && npm run wework
+    - run: npm ci && npx playwright install --with-deps chromium
+      working-directory: shared
+    - run: npm ci && npm run wework
+      working-directory: navy-yard
       env:
         WEWORK_PASSWORD: ${{ secrets.WEWORK_PASSWORD }}
         WEWORK_EMAIL: ${{ secrets.WEWORK_EMAIL }}

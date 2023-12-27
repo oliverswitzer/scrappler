@@ -8,9 +8,7 @@
     "wework": "ts-node src/wework"
   },
   "dependencies": {
-    "playwright": "^1.14.1",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.3",
     "shared": "file:../shared"
   },
   "devDependencies": {

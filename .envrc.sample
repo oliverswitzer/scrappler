@@ -1,0 +1,6 @@
+export NAVY_YARD_EMAIL=<Email for proxyclick account>
+export NAVY_YARD_PASSWORD=<Password for proxyclick account>
+
+export WEWORK_EMAIL=<Email for wework account>
+export WEWORK_PASSWORD=<Password for wework account>
+

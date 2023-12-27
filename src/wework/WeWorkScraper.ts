@@ -1,9 +1,4 @@
 import { BaseScraper } from "../utils/BaseScraper";
-import * as dotenv from "dotenv";
-
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config();
-}
 
 const password = process.env.WEWORK_PASSWORD;
 const email = process.env.WEWORK_EMAIL;

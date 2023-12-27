@@ -8,12 +8,11 @@
     "wework": "ts-node src/wework"
   },
   "dependencies": {
-    "dotenv": "^10.0.0",
     "playwright": "^1.14.1",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   },
   "devDependencies": {
-    "@types/node": "^20.4.2"
+    "@types/node": "^20.10.5"
   }
 }

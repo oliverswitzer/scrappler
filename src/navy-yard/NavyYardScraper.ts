@@ -1,9 +1,4 @@
-import * as dotenv from "dotenv";
 import { BaseScraper } from "../utils/BaseScraper";
-
-if (process.env.NODE_ENV !== "production") {
-  dotenv.config();
-}
 
 const password = process.env.NAVY_YARD_PASSWORD;
 const email = process.env.NAVY_YARD_EMAIL;

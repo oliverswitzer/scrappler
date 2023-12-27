@@ -1,4 +1,4 @@
-name: Run scraper
+name: Run navy yard scraper
 on:
   workflow_dispatch:
   schedule:

@@ -1,5 +1,5 @@
 import WeWorkScraper from "./WeWorkScraper";
-import { randomDelay } from "../utils/randomDelay";
+import { randomDelay } from "shared";
 
 async function main() {
   await randomDelay(process.env.NODE_ENV == "production" ? 15000 : 0);

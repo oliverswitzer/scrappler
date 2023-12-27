@@ -1,5 +1,5 @@
 import NavyYardScraper from "./NavyYardScraper";
-import { randomDelay } from "../utils/randomDelay";
+import { randomDelay } from "shared";
 
 async function main() {
   await randomDelay(15000);

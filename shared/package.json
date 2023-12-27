@@ -1,7 +1,7 @@
 {
-  "name": "proxyclick-scraper",
+  "name": "shared-scraping-config",
   "version": "1.0.0",
-  "description": "A scraper for making passes at the Brooklyn Navy Yard",
+  "description": "A shared set of playright config for use ihn the scrappler project",
   "main": "index.ts",
   "scripts": {
     "navy-yard": "ts-node src/navy-yard",
@@ -10,8 +10,7 @@
   "dependencies": {
     "playwright": "^1.14.1",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.3",
-    "shared": "file:../shared"
+    "typescript": "^4.4.3"
   },
   "devDependencies": {
     "@types/node": "^20.10.5"

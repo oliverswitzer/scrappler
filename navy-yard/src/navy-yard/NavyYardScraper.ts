@@ -1,4 +1,4 @@
-import { BaseScraper } from "../utils/BaseScraper";
+import { BaseScraper } from "shared";
 
 const password = process.env.NAVY_YARD_PASSWORD;
 const email = process.env.NAVY_YARD_EMAIL;

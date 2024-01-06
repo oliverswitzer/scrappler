@@ -9,6 +9,7 @@
   "dependencies": {
     "firebase": "^10.7.1",
     "firebase-admin": "^12.0.0",
+    "typescript": "^4.4.3",
     "parsecurrency": "^1.1.0",
     "playwright": "^1.14.1",
     "shared": "file:../shared",

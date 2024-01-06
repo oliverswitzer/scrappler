@@ -22,7 +22,7 @@ make install
 
 Be sure to follow any prompts to modify your shell init scripts.
 
-Then, in each project directory (`listings-scraper`, `navy-yard`, etc...), run:
+Then, in each project directory (`rental-buddy/scrapers`, `navy-yard`, etc...), run:
 
 ```
 cp .envrc.sample .envrc
@@ -33,7 +33,7 @@ Fill .envrc out based on the sample file.
 ### Running locally
 
 - `npm run navy-yard`
-- `npm run listings-scraper`
+- `npm run rental-buddy:scrape`
 
 ### Running remotely
 

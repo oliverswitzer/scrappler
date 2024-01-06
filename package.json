@@ -5,7 +5,7 @@
   "scripts": {
     "navy-yard": "cd navy-yard && node_modules/.bin/ts-node src/navy-yard",
     "wework": "cd navy-yard && node_modules/.bin/ts-node src/wework",
-    "listings-scraper": "cd listings-scraper/scrapers && node_modules/.bin/ts-node index"
+    "rental-buddy:scrape": "cd rental-buddy/scrapers && node_modules/.bin/ts-node index"
   },
   "dependencies": {},
   "devDependencies": {}

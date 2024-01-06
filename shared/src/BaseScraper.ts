@@ -37,7 +37,7 @@ export class BaseScraper {
       /* await page.screenshot({ path: "stealth.png", fullPage: true }); */
       /* console.log("FINISHED Testing the stealth plugin.."); */
     } else {
-      context.setDefaultTimeout(Infinity);
+      context.setDefaultTimeout(60000 * 10);
     }
 
     return new this(browser, page);

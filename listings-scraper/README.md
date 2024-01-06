@@ -1,6 +1,6 @@
 # Street Easy Scraper
 
-Run `npm run listings-scraper` 
+Run `npm run listings-scraper --prefix scrapers` 
 
 ## Firebase
 

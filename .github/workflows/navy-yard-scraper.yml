@@ -12,7 +12,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18'
+        node-version: '20'
     - run: npm ci && npx playwright install --with-deps chromium
       working-directory: shared
     - run: npm ci && npm run navy-yard
@@ -29,7 +29,7 @@ jobs:
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '18'
+        node-version: '20'
     - run: npm ci && npx playwright install --with-deps chromium
       working-directory: shared
     - run: npm ci && npm run wework

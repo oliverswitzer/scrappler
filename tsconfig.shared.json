@@ -9,7 +9,7 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "sourceMap": true,
-    "target": "ES6",
+    "target": "ES2017",
     "outDir": "./dist",
     "esModuleInterop": true
   },

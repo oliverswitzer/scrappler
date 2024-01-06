@@ -4,29 +4,36 @@
 
 ### To run each scraper locally:
 
-First, install direnv to automatically source .envrc files:
+First, install Brew dependencies (if you don't have Homebrew, install it from [Homebrew's website](https://brew.sh/)):
 
 ```
-brew install direnv
+brew bundle
 ```
 
-Be sure to follow any prompts to modify your shell init scripts.
+Then install nodejs and direnv dependencies using `asdf` (`asdf` will have been installed in the last `brew bundle` command):
 
-Then, in each project directory, run:
+`asdf install`
 
-```
-cp .envrc.sample .envrc
-```
-
-Fill .envrc out based on the sample file. Then run:
+To install npm deps and playwright browsers for each project.
 
 ```
 make install
 ```
 
-To install npm deps and playwright browsers for each project.
+Be sure to follow any prompts to modify your shell init scripts.
 
-Please follow instructions in individual project READMEs for how to run scrapers.
+Then, in each project directory (`listings-scraper`, `navy-yard`, etc...), run:
+
+```
+cp .envrc.sample .envrc
+```
+
+Fill .envrc out based on the sample file.
+
+### Running locally
+
+- `npm run navy-yard`
+- `npm run listings-scraper`
 
 ### Running remotely
 

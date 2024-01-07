@@ -8,3 +8,6 @@ install: install-playwright
 
 install-playwright:
 	npx playwright install
+
+rb-deploy:
+	cd rental-buddy/ui && vercel deploy

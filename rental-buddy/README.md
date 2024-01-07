@@ -2,13 +2,19 @@
 
 ## Running scrapers
 
-From top level of repo or within rental-buddy/scrapers, run:
+From top level of repo or within `rental-buddy/scrapers`, run:
 
-`npm run rental-buddy:scrape`
+```
+npm run rental-buddy:scrape
+```
 
 ## Running UI
 
-Coming soon...
+From within `rental-buddy/ui`, run:
+
+```
+npm run dev
+```
 
 ## Firebase
 

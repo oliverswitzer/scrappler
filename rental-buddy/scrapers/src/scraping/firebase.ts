@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { Listing } from "../listing";
+import { Listing } from "rb-shared";
 
 export class Firebase {
   private db: admin.firestore.Firestore;

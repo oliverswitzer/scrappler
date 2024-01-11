@@ -4,7 +4,7 @@
   "description": "The scrapers package for scraping apartment rental listings for Rental Buddy",
   "main": "index.ts",
   "scripts": {
-    "rental-buddy:scrape": "ts-node index"
+    "scrape": "ts-node index"
   },
   "dependencies": {
     "firebase": "^10.7.1",
@@ -13,6 +13,7 @@
     "parsecurrency": "^1.1.0",
     "playwright": "^1.14.1",
     "shared": "file:../../shared",
+    "rb-shared": "file:../shared",
     "ts-node": "^10.2.1"
   },
   "devDependencies": {

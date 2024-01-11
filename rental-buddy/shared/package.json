@@ -1,0 +1,12 @@
+{
+  "name": "rental-buddy-shared",
+  "version": "1.0.0",
+  "description": "A shared set of types used for rental buddy scraping and ui",
+  "main": "index.ts",
+  "scripts": {},
+  "dependencies": {
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.3"
+  },
+  "devDependencies": {}
+}

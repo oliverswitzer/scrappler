@@ -1,8 +1,7 @@
 import parsecurrency from "parsecurrency";
 import { ElementHandle } from "playwright";
 import { BaseScraper } from "shared";
-import { Listing, NEIGHBORHOOD_NAMES, Neighborhood } from "../listing";
-
+import { Listing, NEIGHBORHOOD_NAMES, Neighborhood } from "rb-shared";
 
 export default class StreetEasyScraper extends BaseScraper {
   async visitHome() {

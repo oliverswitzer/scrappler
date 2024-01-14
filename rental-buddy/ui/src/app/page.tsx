@@ -20,7 +20,7 @@ const cards: Listing[] = Array.from({ length: 10 }, (_, index) => ({
 
 function Home() {
   return (
-    <main className="flex w-[800px] min-h-screen flex-col items-center justify-between p-24">
+    <main>
       <Grid container spacing={4} style={{ padding: 24 }}>
         {cards.map(card => (
           <Grid item xs={12} sm={6} md={4} key={card.id}>
@@ -34,7 +34,7 @@ function Home() {
               </Carousel>
 
               <CardContent>
-                <Typography className="bg-red-500" variant="h5" component="div">
+                <Typography variant="h5" component="div">
                   {card.address}
                 </Typography>
                 <Typography color="textSecondary">

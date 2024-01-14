@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { StyledEngineProvider } from '@mui/material/styles';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import React from 'react';
+
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
@@ -16,13 +18,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <StyledEngineProvider injectFirst>
-      <html lang="en">
+    <React.StrictMode>
+      <StyledEngineProvider injectFirst>
+        <html lang="en">
 
-        <AppRouterCacheProvider>
-          <body className={inter.className}>{children}</body>
-        </AppRouterCacheProvider>
-      </html>
-    </StyledEngineProvider>
+          <AppRouterCacheProvider>
+            <body id="#root" className={inter.className}>{children}</body>
+          </AppRouterCacheProvider>
+        </html>
+      </StyledEngineProvider>
+    </React.StrictMode>
   )
 }

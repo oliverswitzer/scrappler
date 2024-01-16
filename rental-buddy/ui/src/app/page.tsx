@@ -28,7 +28,7 @@ function Home() {
               <Carousel autoPlay={false}>
                 {card.images.map((imgSrc, i) => (
                   <Paper key={`${card.id}-img-${i}`} elevation={0}>
-                    <img src={imgSrc} alt={`Image of ${card.address}`} style={{ width: '100%', height: 'auto' }} />
+                    <img className="w-full min-h-[200px] object-cover" src={imgSrc} alt={`Image of ${card.address}`} />
                   </Paper>
                 ))}
               </Carousel>

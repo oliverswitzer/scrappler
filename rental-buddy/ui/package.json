@@ -17,12 +17,17 @@
     "@mui/material": "^5.15.4",
     "@mui/material-nextjs": "^5.15.3",
     "@types/react": "^18.2.47",
+    "@types/uuid": "^9.0.7",
+    "firebase": "^10.7.1",
     "flowbite-react": "^0.7.2",
-    "next": "14.0.4",
+    "mobx": "^6.12.0",
+    "mobx-react-lite": "^4.0.5",
+    "next": "^14.1.0",
     "rb-shared": "file:../shared",
     "react": "^18",
     "react-dom": "^18",
-    "react-material-ui-carousel": "^3.4.2"
+    "react-material-ui-carousel": "^3.4.2",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",

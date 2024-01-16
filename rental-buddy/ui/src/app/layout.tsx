@@ -4,6 +4,7 @@ import './globals.css'
 import { StyledEngineProvider } from '@mui/material/styles';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import React from 'react';
+import { StoreWrapper } from "@/stores/provider";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -15,16 +16,17 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
 }) {
   return (
     <React.StrictMode>
       <StyledEngineProvider injectFirst>
         <html lang="en">
-
-          <AppRouterCacheProvider>
-            <body id="#root" className={inter.className}>{children}</body>
-          </AppRouterCacheProvider>
+          <StoreWrapper>
+            <AppRouterCacheProvider>
+              <body id="#root" className={inter.className}>{children}</body>
+            </AppRouterCacheProvider>
+          </StoreWrapper>
         </html>
       </StyledEngineProvider>
     </React.StrictMode>

@@ -37,5 +37,3 @@ export class Firebase {
 function toSerializable(obj: object) {
   return JSON.parse(JSON.stringify(obj))
 }
-
-export const firebase = new Firebase();

@@ -19,6 +19,7 @@
     "@types/react": "^18.2.47",
     "@types/uuid": "^9.0.7",
     "firebase": "^10.7.1",
+    "firebase-admin": "^12.0.0",
     "flowbite-react": "^0.7.2",
     "mobx": "^6.12.0",
     "mobx-react-lite": "^4.0.5",

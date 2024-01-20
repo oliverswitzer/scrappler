@@ -11,15 +11,15 @@ export class Firebase {
   private db: fb.firestore.Firestore;
 
   constructor() {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error("Prod not configured yet!")
-    } else {
-      fb.initializeApp({
-        apiKey: 'AIzaSyBks9kOGQNrCRlqAFmn9oX0vK-TSurPEiY',
-        authDomain: 'rental-buddy-dev.firebaseapp.com',
-        projectId: 'rental-buddy-dev'
-      });
-    }
+    // if (process.env.NODE_ENV === 'production') {
+    //   throw new Error("Prod not configured yet!")
+    // } else {
+    fb.initializeApp({
+      apiKey: 'AIzaSyBks9kOGQNrCRlqAFmn9oX0vK-TSurPEiY',
+      authDomain: 'rental-buddy-dev.firebaseapp.com',
+      projectId: 'rental-buddy-dev'
+    });
+    // }
 
     this.db = fb.firestore();
   }

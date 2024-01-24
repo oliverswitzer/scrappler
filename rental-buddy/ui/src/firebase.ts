@@ -31,6 +31,7 @@ export class Firebase {
         rootStore.sessionStore.setCurrentUser(toCoreUser(googleUser))
 
         const listings = await this.getListings()
+
         rootStore.sessionStore.setListings(listings)
       } else {
         rootStore.sessionStore.setCurrentUser(null)

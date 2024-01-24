@@ -5,6 +5,7 @@ import { Listings } from "./listings";
 import { useStores } from "@/hooks/useStores";
 import { useCallback, useEffect } from "react";
 import { getAuth } from 'firebase/auth';
+import { Container } from '@mui/material';
 
 function Home() {
   const {
@@ -17,12 +18,12 @@ function Home() {
   const listings = sessionStore.listings
 
   return (
-    <main>
+    <Container maxWidth="xl">
       {currentUser && <h1>Logged in as: {currentUser?.email}</h1>}
       {!currentUser && <button onClick={handleSignIn}>Sign in with Google</button>}
       {currentUser && <button onClick={handleSignOut}>Sign out</button>}
       <Listings listings={listings} />
-    </main>
+    </Container>
   );
 }
 

@@ -1,6 +1,6 @@
 import { BaseScraper } from "shared";
 import StreetEasyScraper from "./src/scraping/StreetEasyScraper";
-import { firebase } from "./src/scraping/firebase";
+import { Firebase } from "./src/scraping/firebase"
 
 class TestScraper extends BaseScraper {
   async test() {
@@ -8,6 +8,8 @@ class TestScraper extends BaseScraper {
     this.page.pause();
   }
 }
+
+const firebase = new Firebase()
 
 async function main() {
   // const testScraper = await TestScraper.create();

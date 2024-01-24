@@ -1,7 +1,7 @@
 import parsecurrency from "parsecurrency";
 import { ElementHandle } from "playwright";
 import { BaseScraper } from "shared";
-import { Listing, NEIGHBORHOOD_NAMES, Neighborhood } from "rb-shared";
+import { Listing, Neighborhood, NEIGHBORHOOD_ENUM_TO_STRING_MAP, NEIGHBORHOOD_NAMES_TO_ENUM_MAP } from "rb-shared";
 
 export default class StreetEasyScraper extends BaseScraper {
   async visitHome() {
@@ -27,7 +27,7 @@ export default class StreetEasyScraper extends BaseScraper {
     ]
 
     for (const neighborhood of neighborhoods) {
-      await this.addNeighborhoodToSearch(NEIGHBORHOOD_NAMES[neighborhood])
+      await this.addNeighborhoodToSearch(NEIGHBORHOOD_ENUM_TO_STRING_MAP[neighborhood])
     }
 
     await this.page.getByRole("button", { name: "Done" }).click();
@@ -64,7 +64,8 @@ export default class StreetEasyScraper extends BaseScraper {
       await nextPageButton.click()
     }
 
-    console.log("reached last page. returning listings...")
+    console.log("reached last page. persisting ", listings.length, " total listings...")
+    console.log("current streeteasy search", this.page.url())
 
     return listings
   }
@@ -83,7 +84,7 @@ export default class StreetEasyScraper extends BaseScraper {
       const url = await extractListingURL(el)
 
       if (!url) {
-        console.log("Could not parse listing: ", el)
+        console.log("Could not parse listing: ", await el.textContent(), ". No URL found.")
         continue
       }
 
@@ -94,6 +95,13 @@ export default class StreetEasyScraper extends BaseScraper {
       const bathroomCount = await extractBathroomCount(el);
       const hasBrokerFee = !(await el.$(".NoFeeBadge"))
       const sqFt = await extractSquareFootage(el)
+      const neighborhood = await extractNeighborhood(el)
+
+
+      if (!neighborhood) {
+        console.log("Could not parse listing (no neighborhood found): ", url.toString())
+        continue
+      }
 
       listings.push(
         {
@@ -105,7 +113,8 @@ export default class StreetEasyScraper extends BaseScraper {
           bedroomCount,
           bathroomCount,
           hasBrokerFee,
-          sqFt
+          sqFt,
+          neighborhood
         }
       )
     }
@@ -205,6 +214,20 @@ async function extractListingURL(listingEl: ElementHandle<Node>) {
 
   if (url) {
     return new URL(url)
+  }
+}
+
+async function extractNeighborhood(el: ElementHandle<Node>) {
+  const neighborhoodEl = await el.$(".listingCardBottom--upperBlock")
+  const neighborhoodText = await neighborhoodEl?.textContent()
+
+  if (neighborhoodText) {
+    const match = neighborhoodText.match(/(Condo|Rental Unit) in (.*)/);
+
+    if (match) {
+      const neighborhood = match[2];
+      return NEIGHBORHOOD_NAMES_TO_ENUM_MAP[neighborhood]
+    }
   }
 }
 

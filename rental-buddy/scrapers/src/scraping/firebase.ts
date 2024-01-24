@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { Listing } from "rb-shared";
+import { firestoreConverter, Listing } from "rb-shared";
 
 export class Firebase {
   private db: admin.firestore.Firestore;
@@ -21,7 +21,7 @@ export class Firebase {
 
   async storeListings(listings: Listing[]) {
     const batch = this.db.batch();
-    const streetEasyListingsRef = this.db.collection("streeteasy_listings");
+    const streetEasyListingsRef = this.db.collection("streeteasy_listings").withConverter(firestoreConverter);
 
     listings.forEach(listing => {
       const docRef = streetEasyListingsRef.doc(listing.id);

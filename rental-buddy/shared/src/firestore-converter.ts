@@ -1,10 +1,24 @@
+import { Neighborhood } from "./listing";
+
 export const firestoreConverter: any = {
-  toFirestore: (data: any) => data,
-  fromFirestore: (snapshot: any) => convertTimestampsToDates(
-    snapshot.data({
+  toFirestore: (data: any) => {
+    return data
+  },
+  fromFirestore: (snapshot: any) => {
+    const data = snapshot.data({
       serverTimestamps: 'estimate',
-    }),
-  ),
+    })
+
+    if (data.neighborhood) {
+      const neighborhoodKey = data.neighborhood as keyof typeof Neighborhood;
+      const neighborhoodEnum = Neighborhood[neighborhoodKey];
+      if (neighborhoodEnum) {
+        data.neighborhood = neighborhoodEnum;
+      }
+    }
+
+    return convertTimestampsToDates(data)
+  }
 };
 
 function convertTimestampsToDates(document: any) {

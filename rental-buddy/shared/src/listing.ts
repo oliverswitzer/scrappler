@@ -1,19 +1,19 @@
 export enum Neighborhood {
-  GREENPOINT,
-  WILLIAMSBURG,
-  EAST_WILLIAMSBURG,
-  CARROLL_GARDENS,
-  COBBLE_HILL,
-  BROOKLYN_HEIGHTS,
-  CLINTON_HILL,
-  FORT_GREENE,
-  PARK_SLOPE,
-  PROSPECT_HEIGHTS,
+  GREENPOINT = "GREENPOINT",
+  WILLIAMSBURG = "WILLIAMSBURG",
+  EAST_WILLIAMSBURG = "EAST_WILLIAMSBURG",
+  CARROLL_GARDENS = "CARROLL_GARDENS",
+  COBBLE_HILL = "COBBLE_HILL",
+  BROOKLYN_HEIGHTS = "BROOKLYN_HEIGHTS",
+  CLINTON_HILL = "CLINTON_HILL",
+  FORT_GREENE = "FORT_GREENE",
+  PARK_SLOPE = "PARK_SLOPE",
+  PROSPECT_HEIGHTS = "PROSPECT_HEIGHTS"
 }
 
 export type NeighborhoodNames = { [k in Neighborhood]: string }
 
-export const NEIGHBORHOOD_NAMES = {
+export const NEIGHBORHOOD_ENUM_TO_STRING_MAP: NeighborhoodNames = {
   [Neighborhood.GREENPOINT]: "Greenpoint",
   [Neighborhood.WILLIAMSBURG]: "Williamsburg",
   [Neighborhood.EAST_WILLIAMSBURG]: "East Williamsburg",
@@ -26,13 +26,20 @@ export const NEIGHBORHOOD_NAMES = {
   [Neighborhood.PROSPECT_HEIGHTS]: "Prospect Heights"
 }
 
+export const NEIGHBORHOOD_NAMES_TO_ENUM_MAP: { [key: string]: Neighborhood } = Object.fromEntries(
+  Object.entries(NEIGHBORHOOD_ENUM_TO_STRING_MAP).map(([key, value]) => [value, Neighborhood[key as keyof typeof Neighborhood]])
+);
+
+export function isListing(obj: any): obj is Listing {
+  return 'neighborhood' in obj && Object.values(Neighborhood).includes(obj.neighborhood);
+}
 export type Listing = {
   id: string,
   url: URL,
   address: string;
   rent: number;
   images: string[]
-  neighborhood?: Neighborhood;
+  neighborhood: Neighborhood;
 
   bedroomCount?: number | "Studio";
   bathroomCount?: number;

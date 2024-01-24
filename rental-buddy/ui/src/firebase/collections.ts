@@ -1,5 +1,4 @@
-import { firestoreConverter } from './converter';
-import { Listing } from 'rb-shared';
+import { Listing, firestoreConverter } from 'rb-shared';
 import { CollectionRef, EnvFirestore } from './types';
 
 export const firestoreCollections = <F>(fb: EnvFirestore) => ({

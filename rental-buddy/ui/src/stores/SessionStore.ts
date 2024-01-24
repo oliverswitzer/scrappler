@@ -7,11 +7,11 @@ import { RootStore } from "./RootStore";
 export class SessionStore {
   private fb: Firebase;
   private rootStore: RootStore;
-  @observable currentUser?: User
+  @observable currentUser: User | null = null
   @observable listings: Listing[]
 
   constructor(rootStore: RootStore) {
-    this.fb = new Firebase();
+    this.fb = new Firebase(rootStore);
     this.rootStore = rootStore
     this.listings = []
 
@@ -19,14 +19,17 @@ export class SessionStore {
   }
 
   @action
-  logIn = async () => {
-    const user = await this.fb.signInWithGoogle()
+  signIn = async () => {
+    await this.fb.signInWithGoogle()
+  }
+  @action
+  signOut = async () => {
+    await this.fb.signOut()
+  }
 
-    if (user) {
-      const listings = await this.fb.getListings()
-      this.currentUser = user;
-      this.setListings(listings);
-    }
+  @action
+  setCurrentUser = async (user: User | null) => {
+    this.currentUser = user
   }
 
   @action

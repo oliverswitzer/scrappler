@@ -2,15 +2,16 @@
 import fb from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 
-import { getAuth, signInWithPopup, GoogleAuthProvider, User as FirebaseUser } from "firebase/auth";
+import { getAuth, signInWithPopup, onAuthStateChanged, GoogleAuthProvider, User as FirebaseUser, setPersistence, browserSessionPersistence } from "firebase/auth";
 import { Listing } from 'rb-shared';
 import { firestoreCollections } from './firebase/collections';
 import { User } from './core/user';
+import { RootStore } from './stores/RootStore';
 
 export class Firebase {
   private db: fb.firestore.Firestore;
 
-  constructor() {
+  constructor(rootStore: RootStore) {
     // if (process.env.NODE_ENV === 'production') {
     //   throw new Error("Prod not configured yet!")
     // } else {
@@ -22,6 +23,20 @@ export class Firebase {
     // }
 
     this.db = fb.firestore();
+
+    const auth = getAuth();
+
+    onAuthStateChanged(auth, async (googleUser) => {
+      if (googleUser) {
+        rootStore.sessionStore.setCurrentUser(toCoreUser(googleUser))
+
+        const listings = await this.getListings()
+        rootStore.sessionStore.setListings(listings)
+      } else {
+        rootStore.sessionStore.setCurrentUser(null)
+        rootStore.sessionStore.setListings([])
+      }
+    });
   }
 
   async getListings(): Promise<Listing[]> {
@@ -30,9 +45,17 @@ export class Firebase {
     return await streeteasy_listings.get().then(snapshot => snapshot.docs.map(doc => doc.data()))
   }
 
+  async signOut(): Promise<void> {
+    const auth = getAuth();
+    await auth.signOut();
+  }
+
   async signInWithGoogle(): Promise<User> {
     const provider = new GoogleAuthProvider();
     const auth = getAuth();
+
+    await setPersistence(auth, browserSessionPersistence);
+
     return signInWithPopup(auth, provider)
       .then((result) => {
         const credential = GoogleAuthProvider.credentialFromResult(result);

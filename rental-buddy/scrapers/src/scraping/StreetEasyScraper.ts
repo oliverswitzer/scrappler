@@ -1,7 +1,7 @@
 import parsecurrency from "parsecurrency";
 import { ElementHandle } from "playwright";
 import { BaseScraper } from "shared";
-import { Listing, Neighborhood, NEIGHBORHOOD_ENUM_TO_STRING_MAP, NEIGHBORHOOD_NAMES_TO_ENUM_MAP } from "rb-shared";
+import { Listing, ListingSource, Neighborhood, NEIGHBORHOOD_ENUM_TO_STRING_MAP, NEIGHBORHOOD_NAMES_TO_ENUM_MAP } from "rb-shared";
 
 export default class StreetEasyScraper extends BaseScraper {
   async visitHome() {
@@ -109,6 +109,7 @@ export default class StreetEasyScraper extends BaseScraper {
           url: new URL(url),
           address: address,
           rent: rentAmt,
+          source: ListingSource.STREET_EASY,
           images,
           bedroomCount,
           bathroomCount,

@@ -11,6 +11,10 @@ export enum Neighborhood {
   PROSPECT_HEIGHTS = "PROSPECT_HEIGHTS"
 }
 
+export enum ListingSource {
+  STREET_EASY = "STREET_EASY"
+}
+
 export type NeighborhoodNames = { [k in Neighborhood]: string }
 
 export const NEIGHBORHOOD_ENUM_TO_STRING_MAP: NeighborhoodNames = {
@@ -40,6 +44,7 @@ export type Listing = {
   rent: number;
   images: string[]
   neighborhood: Neighborhood;
+  source: ListingSource;
 
   bedroomCount?: number | "Studio";
   bathroomCount?: number;

@@ -1,4 +1,4 @@
-import { Neighborhood } from "./listing";
+import { ListingSource, Neighborhood } from "./listing";
 
 export const firestoreConverter: any = {
   toFirestore: (data: any) => {
@@ -10,11 +10,14 @@ export const firestoreConverter: any = {
     })
 
     if (data.neighborhood) {
-      const neighborhoodKey = data.neighborhood as keyof typeof Neighborhood;
-      const neighborhoodEnum = Neighborhood[neighborhoodKey];
-      if (neighborhoodEnum) {
-        data.neighborhood = neighborhoodEnum;
+      const neighborhood = Neighborhood[data.neighborhood as keyof typeof Neighborhood];
+      if (neighborhood) {
+        data.neighborhood = neighborhood;
       }
+
+      const listingSource = ListingSource[data.source as keyof typeof ListingSource];
+      if (listingSource)
+        data.source = listingSource
     }
 
     return convertTimestampsToDates(data)

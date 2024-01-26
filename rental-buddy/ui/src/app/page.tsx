@@ -1,21 +1,18 @@
 'use client';
 
 import { observer } from 'mobx-react-lite';
-import { Listings } from "./listings";
-import { useStores } from "@/hooks/useStores";
-import { useCallback, useEffect } from "react";
-import { getAuth } from 'firebase/auth';
+import { useStores } from '@/hooks/useStores';
+import { useCallback } from 'react';
 import { Container } from '@mui/material';
+import { Listings } from './components/Listings';
 
 function Home() {
-  const {
-    sessionStore
-  } = useStores();
+  const { sessionStore } = useStores();
 
-  const handleSignIn = useCallback(sessionStore.signIn, [sessionStore])
-  const handleSignOut = useCallback(sessionStore.signOut, [sessionStore])
-  const currentUser = sessionStore.currentUser
-  const listings = sessionStore.listings
+  const handleSignIn = useCallback(sessionStore.signIn, [sessionStore]);
+  const handleSignOut = useCallback(sessionStore.signOut, [sessionStore]);
+  const currentUser = sessionStore.currentUser;
+  const listings = sessionStore.listings;
 
   return (
     <Container maxWidth="xl">

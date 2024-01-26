@@ -19,3 +19,5 @@ jobs:
           args: deploy --only firestore
         env:
           GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
+          PROJECT_ID: rental-buddy-dev
+          PROJECT_PATH: rental-buddy

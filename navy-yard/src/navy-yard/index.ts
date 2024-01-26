@@ -1,5 +1,5 @@
-import NavyYardScraper from "./NavyYardScraper";
-import { randomDelay } from "shared";
+import NavyYardScraper from './NavyYardScraper';
+import { randomDelay } from 'shared';
 
 async function main() {
   await randomDelay(15000);
@@ -13,7 +13,7 @@ async function main() {
   await scraper.submitVisitorForm();
   await scraper.close();
 
-  console.log("Succesfully created a new visit for Oliver");
+  console.log('Succesfully created a new visit for Oliver');
 }
 
 main();

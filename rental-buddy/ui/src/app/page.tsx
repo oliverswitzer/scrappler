@@ -66,7 +66,7 @@ function Home() {
                   width={220}
                   height={50}
                   alt="Sign in with Google"
-                  src={`/sign-in-with-google-${prefersDarkMode ? 'dark' : 'light'}-2x.png`}
+                  src={`/sign-in-with-google-${'dark'}-2x.png`}
                 />
               </Link>
             </div>

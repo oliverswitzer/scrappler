@@ -4,17 +4,16 @@
 
 This repo is a monorepo with many scraping-related projects of mine. The current projects are:
 
-* [navy-yard](./navy-yard/README.md)
+- [navy-yard](./navy-yard/README.md)
 
-   Scrapers that will create day passes at WeWork and the Brooklyn Navy Yard automatically for me.
+  Scrapers that will create day passes at WeWork and the Brooklyn Navy Yard automatically for me.
 
-* [rental-buddy](./rental-buddy/README.md):
+- [rental-buddy](./rental-buddy/README.md):
 
-    A set of scrapers and a user interface that will scrape various rental listing websites for data and aggregate them.
+  A set of scrapers and a user interface that will scrape various rental listing websites for data and aggregate them.
 
-* [shared](./shared/.) 
-    
-    This directory simply houses shared playwright scraper config that is used by all projects
+- [shared](./shared/.)
+  This directory simply houses shared playwright scraper config that is used by all projects
 
 ## Local Dev Setup
 

@@ -1,2 +1,2 @@
-export { BaseScraper } from './src/BaseScraper'
-export { randomDelay } from './src/randomDelay'
+export { BaseScraper } from './src/BaseScraper';
+export { randomDelay } from './src/randomDelay';

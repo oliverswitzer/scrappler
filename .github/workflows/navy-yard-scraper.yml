@@ -8,33 +8,33 @@ jobs:
     runs-on: ubuntu-latest
     environment: scrape-env
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
-    - run: npm ci && npx playwright install --with-deps chromium
-      working-directory: shared
-    - run: npm ci && npm run navy-yard
-      working-directory: navy-yard
-      env:
-        NAVY_YARD_PASSWORD: ${{ secrets.NAVY_YARD_PASSWORD }}
-        NAVY_YARD_EMAIL: ${{ secrets.NAVY_YARD_EMAIL }}
-        NODE_ENV: production
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - run: npm ci && npx playwright install --with-deps chromium
+        working-directory: shared
+      - run: npm ci && npm run navy-yard
+        working-directory: navy-yard
+        env:
+          NAVY_YARD_PASSWORD: ${{ secrets.NAVY_YARD_PASSWORD }}
+          NAVY_YARD_EMAIL: ${{ secrets.NAVY_YARD_EMAIL }}
+          NODE_ENV: production
   scrape-wework:
     runs-on: ubuntu-latest
     environment: scrape-env
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '20'
-    - run: npm ci && npx playwright install --with-deps chromium
-      working-directory: shared
-    - run: npm ci && npm run wework
-      working-directory: navy-yard
-      env:
-        WEWORK_PASSWORD: ${{ secrets.WEWORK_PASSWORD }}
-        WEWORK_EMAIL: ${{ secrets.WEWORK_EMAIL }}
-        NODE_ENV: production
+      - uses: actions/checkout@v2
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - run: npm ci && npx playwright install --with-deps chromium
+        working-directory: shared
+      - run: npm ci && npm run wework
+        working-directory: navy-yard
+        env:
+          WEWORK_PASSWORD: ${{ secrets.WEWORK_PASSWORD }}
+          WEWORK_EMAIL: ${{ secrets.WEWORK_EMAIL }}
+          NODE_ENV: production

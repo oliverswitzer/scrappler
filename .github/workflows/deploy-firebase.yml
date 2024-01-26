@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
-      - name: Deploy to Firestore 
+      - name: Deploy to Firestore
         uses: w9jds/firebase-action@v12.9.0
         with:
           args: deploy --only firestore

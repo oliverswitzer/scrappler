@@ -1,6 +1,6 @@
-import { Browser, Page } from "playwright";
-import { chromium } from "playwright-extra";
-import stealth from "puppeteer-extra-plugin-stealth";
+import { Browser, Page } from 'playwright';
+import { chromium } from 'playwright-extra';
+import stealth from 'puppeteer-extra-plugin-stealth';
 
 // https://www.npmjs.com/package/playwright-extra
 // https://github.com/berstend/puppeteer-extra/tree/39248f1f5deeb21b1e7eb6ae07b8ef73f1231ab9/packages/puppeteer-extra-plugin-stealth
@@ -21,14 +21,14 @@ export class BaseScraper {
   ): Promise<T> {
     chromium.use(stealth());
     const browser = await chromium.launch({
-      headless: process.env.NODE_ENV == "production",
+      headless: process.env.NODE_ENV == 'production',
     });
 
     const context = await browser.newContext();
 
     const page = await context.newPage();
 
-    if (process.env.NODE_ENV !== "production") {
+    if (process.env.NODE_ENV !== 'production') {
       context.setDefaultTimeout(60000);
       /* console.log("Testing the stealth plugin.."); */
       /* await page.goto("https://bot.sannysoft.com", { */

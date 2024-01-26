@@ -1,0 +1,13 @@
+coverage
+dist
+lib
+node_modules
+package-lock.json
+*.tsbuildinfo
+*.map
+*.ico
+build/assets/*
+public
+*.png
+public
+.next

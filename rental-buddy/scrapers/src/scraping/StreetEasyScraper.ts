@@ -1,17 +1,21 @@
-import parsecurrency from "parsecurrency";
-import { ElementHandle } from "playwright";
-import { BaseScraper } from "shared";
-import { Listing, ListingSource, Neighborhood, NEIGHBORHOOD_ENUM_TO_STRING_MAP, NEIGHBORHOOD_NAMES_TO_ENUM_MAP } from "rb-shared";
+import parsecurrency from 'parsecurrency';
+import { ElementHandle } from 'playwright';
+import { BaseScraper } from 'shared';
+import {
+  Listing,
+  ListingSource,
+  Neighborhood,
+  NEIGHBORHOOD_ENUM_TO_STRING_MAP,
+  NEIGHBORHOOD_NAMES_TO_ENUM_MAP,
+} from 'rb-shared';
 
 export default class StreetEasyScraper extends BaseScraper {
   async visitHome() {
-    await this.page.goto("https://streeteasy.com");
+    await this.page.goto('https://streeteasy.com');
   }
 
   async searchNeighborhoods() {
-    await this.page
-      .getByRole("button", { name: "Choose neighborhoods or boroughs" })
-      .click();
+    await this.page.getByRole('button', { name: 'Choose neighborhoods or boroughs' }).click();
 
     const neighborhoods = [
       Neighborhood.GREENPOINT,
@@ -24,100 +28,95 @@ export default class StreetEasyScraper extends BaseScraper {
       Neighborhood.FORT_GREENE,
       Neighborhood.PARK_SLOPE,
       Neighborhood.PROSPECT_HEIGHTS,
-    ]
+    ];
 
     for (const neighborhood of neighborhoods) {
-      await this.addNeighborhoodToSearch(NEIGHBORHOOD_ENUM_TO_STRING_MAP[neighborhood])
+      await this.addNeighborhoodToSearch(NEIGHBORHOOD_ENUM_TO_STRING_MAP[neighborhood]);
     }
 
-    await this.page.getByRole("button", { name: "Done" }).click();
-    await this.page.getByPlaceholder("Min").click();
-    await this.page.getByRole("option", { name: "$1,250" }).click();
-    await this.page.getByPlaceholder("Max").click();
-    await this.page.getByRole("option", { name: "$2,500" }).click();
+    await this.page.getByRole('button', { name: 'Done' }).click();
+    await this.page.getByPlaceholder('Min').click();
+    await this.page.getByRole('option', { name: '$1,250' }).click();
+    await this.page.getByPlaceholder('Max').click();
+    await this.page.getByRole('option', { name: '$2,500' }).click();
     // await this.page.getByLabel("No fee").check();
     await this.page
-      .locator(
-        "[class*=SearchModuleWrapper] button[type=submit][class*=styled]"
-      )
+      .locator('[class*=SearchModuleWrapper] button[type=submit][class*=styled]')
       .click();
-    await this.page.getByRole("button", { name: "Search" }).nth(1).click();
+    await this.page.getByRole('button', { name: 'Search' }).nth(1).click();
   }
 
   async addNeighborhoodToSearch(neighborhood: string) {
-    await this.page.getByLabel("Neighborhoods and Boroughs").click();
-    await this.page.getByLabel("Neighborhoods and Boroughs").fill(neighborhood);
-    await this.page.getByRole("option", { name: neighborhood, exact: true }).click();
+    await this.page.getByLabel('Neighborhoods and Boroughs').click();
+    await this.page.getByLabel('Neighborhoods and Boroughs').fill(neighborhood);
+    await this.page.getByRole('option', { name: neighborhood, exact: true }).click();
   }
 
   async paginateAndRetrieveListings(): Promise<Listing[]> {
     await this.page.waitForTimeout(2000);
 
-    let listings: Listing[] = []
+    let listings: Listing[] = [];
 
     const nextPageButton = await this.nextPageButton();
 
     while ((await nextPageButton.count()) > 0) {
-      const pageListings = await this.getListingsOnPage()
+      const pageListings = await this.getListingsOnPage();
 
-      listings = listings.concat(pageListings)
-      await nextPageButton.click()
+      listings = listings.concat(pageListings);
+      await nextPageButton.click();
     }
 
-    console.log("reached last page. persisting ", listings.length, " total listings...")
-    console.log("current streeteasy search", this.page.url())
+    console.log('reached last page. persisting ', listings.length, ' total listings...');
+    console.log('current streeteasy search', this.page.url());
 
-    return listings
+    return listings;
   }
 
   async getListingsOnPage(): Promise<Listing[]> {
     await this.page.waitForTimeout(2000);
 
-    console.log("getting this pages listings...")
+    console.log('getting this pages listings...');
 
-    const listings: Listing[] = []
-    const listingEls = this.page.locator(".searchCardList--listItem");
+    const listings: Listing[] = [];
+    const listingEls = this.page.locator('.searchCardList--listItem');
 
-    console.log("num listings on page: ", (await listingEls.count()))
+    console.log('num listings on page: ', await listingEls.count());
 
     for (const el of await listingEls.elementHandles()) {
-      const url = await extractListingURL(el)
+      const url = await extractListingURL(el);
 
       if (!url) {
-        console.log("Could not parse listing: ", await el.textContent(), ". No URL found.")
-        continue
+        console.log('Could not parse listing: ', await el.textContent(), '. No URL found.');
+        continue;
       }
 
       const address = await extractAddress(el);
       const rentAmt = await extractRentAmt(el);
-      const images = await extractImages(el)
+      const images = await extractImages(el);
       const bedroomCount = await extractBedroomCount(el);
       const bathroomCount = await extractBathroomCount(el);
-      const hasBrokerFee = !(await el.$(".NoFeeBadge"))
-      const sqFt = await extractSquareFootage(el)
-      const neighborhood = await extractNeighborhood(el)
-
+      const hasBrokerFee = !(await el.$('.NoFeeBadge'));
+      const sqFt = await extractSquareFootage(el);
+      const neighborhood = await extractNeighborhood(el);
 
       if (!neighborhood) {
-        console.log("Could not parse listing (no neighborhood found): ", url.toString())
-        continue
+        console.log('Could not parse listing (no neighborhood found): ', url.toString());
+        continue;
       }
 
-      listings.push(
-        {
-          id: listingIdHash(address, rentAmt),
-          url: new URL(url),
-          address: address,
-          rent: rentAmt,
-          source: ListingSource.STREET_EASY,
-          images,
-          bedroomCount,
-          bathroomCount,
-          hasBrokerFee,
-          sqFt,
-          neighborhood
-        }
-      )
+      listings.push({
+        id: listingIdHash(address, rentAmt),
+        url: new URL(url),
+        address: address,
+        rent: rentAmt,
+        source: ListingSource.STREET_EASY,
+        images,
+        bedroomCount,
+        bathroomCount,
+        hasBrokerFee,
+        sqFt,
+        neighborhood,
+      });
     }
     return listings;
   }
@@ -128,30 +127,27 @@ export default class StreetEasyScraper extends BaseScraper {
 }
 
 async function extractAddress(el: ElementHandle): Promise<string> {
-  const addrEl = await el.$("address");
+  const addrEl = await el.$('address');
   const address = (await addrEl?.textContent())?.trim();
-  if (!address)
-    throw new Error("address not parseable")
+  if (!address) throw new Error('address not parseable');
 
   return address;
 }
 async function extractRentAmt(el: ElementHandle): Promise<number> {
-  const rentAmtEl = await el.$(".price");
+  const rentAmtEl = await el.$('.price');
   let rentAmt = (await rentAmtEl?.textContent())?.trim();
   rentAmt = rentAmt?.slice(1, rentAmt.length);
-  if (!rentAmt)
-    throw new Error("rent not parseable")
+  if (!rentAmt) throw new Error('rent not parseable');
 
-  const parsedRentAmt = parsecurrency(rentAmt)?.value
+  const parsedRentAmt = parsecurrency(rentAmt)?.value;
 
-  if (!parsedRentAmt)
-    throw new Error("rent not parseable")
+  if (!parsedRentAmt) throw new Error('rent not parseable');
 
-  return parsedRentAmt
+  return parsedRentAmt;
 }
 
 function listingIdHash(...args: any[]): string {
-  const stringifiedArgs = args.map(arg => JSON.stringify(arg)).join('');
+  const stringifiedArgs = args.map((arg) => JSON.stringify(arg)).join('');
   let hash = 0;
 
   if (stringifiedArgs.length === 0) return hash.toString();
@@ -167,68 +163,75 @@ function listingIdHash(...args: any[]): string {
 }
 
 async function extractImages(listingEl: ElementHandle<Node>) {
-  return await listingEl.evaluate(_listingEl => {
-    const rightCarouselButton = (<HTMLElement>_listingEl).querySelector('[aria-label="Gallery Navigate Right"]')
+  return await listingEl.evaluate((_listingEl) => {
+    const rightCarouselButton = (<HTMLElement>_listingEl).querySelector(
+      '[aria-label="Gallery Navigate Right"]'
+    );
 
     for (let i = 0; i < 10; i++) {
-      rightCarouselButton?.dispatchEvent(new Event("click"));
+      rightCarouselButton?.dispatchEvent(new Event('click'));
     }
 
     return Array.from((<HTMLElement>_listingEl).querySelectorAll('img'))
-      .map(imgEl => imgEl.src)
-      .map(imgSrc => imgSrc.replace("medium_500_250", "large_800_400"))
-  })
+      .map((imgEl) => imgEl.src)
+      .map((imgSrc) => imgSrc.replace('medium_500_250', 'large_800_400'));
+  });
 }
 
 async function extractBedroomCount(listingsEl: ElementHandle<Node>) {
-  const bedrooomCountEl = await listingsEl.$(".listingDetailDefinitionsIcon--bed + .listingDetailDefinitionsText")
-  const bedroomCount = await bedrooomCountEl?.textContent()
+  const bedrooomCountEl = await listingsEl.$(
+    '.listingDetailDefinitionsIcon--bed + .listingDetailDefinitionsText'
+  );
+  const bedroomCount = await bedrooomCountEl?.textContent();
 
-  if (bedroomCount?.includes("Studio")) {
-    return "Studio"
+  if (bedroomCount?.includes('Studio')) {
+    return 'Studio';
   } else if (bedroomCount) {
-    return parseInt(bedroomCount)
+    return parseInt(bedroomCount);
   }
 }
 
 async function extractBathroomCount(listingsEl: ElementHandle<Node>) {
-  const bathroomCountEl = await listingsEl.$(".listingDetailDefinitionsIcon--bath + .listingDetailDefinitionsText")
-  const bathroomCount = await bathroomCountEl?.textContent()
+  const bathroomCountEl = await listingsEl.$(
+    '.listingDetailDefinitionsIcon--bath + .listingDetailDefinitionsText'
+  );
+  const bathroomCount = await bathroomCountEl?.textContent();
 
   if (bathroomCount) {
-    return parseInt(bathroomCount)
+    return parseInt(bathroomCount);
   }
 }
 
 async function extractSquareFootage(listingsEl: ElementHandle<Node>) {
-  const squareFootageEl = await listingsEl.$(".listingDetailDefinitionsIcon--measure + .listingDetailDefinitionsText")
-  const squareFootage = await squareFootageEl?.textContent()
+  const squareFootageEl = await listingsEl.$(
+    '.listingDetailDefinitionsIcon--measure + .listingDetailDefinitionsText'
+  );
+  const squareFootage = await squareFootageEl?.textContent();
 
   if (squareFootage) {
-    return parseInt(squareFootage)
+    return parseInt(squareFootage);
   }
 }
 
 async function extractListingURL(listingEl: ElementHandle<Node>) {
-  const urlEl = await listingEl.$(".listingCard-globalLink")
-  const url = await urlEl?.getAttribute("href")
+  const urlEl = await listingEl.$('.listingCard-globalLink');
+  const url = await urlEl?.getAttribute('href');
 
   if (url) {
-    return new URL(url)
+    return new URL(url);
   }
 }
 
 async function extractNeighborhood(el: ElementHandle<Node>) {
-  const neighborhoodEl = await el.$(".listingCardBottom--upperBlock")
-  const neighborhoodText = await neighborhoodEl?.textContent()
+  const neighborhoodEl = await el.$('.listingCardBottom--upperBlock');
+  const neighborhoodText = await neighborhoodEl?.textContent();
 
   if (neighborhoodText) {
     const match = neighborhoodText.match(/(Condo|Rental Unit) in (.*)/);
 
     if (match) {
       const neighborhood = match[2];
-      return NEIGHBORHOOD_NAMES_TO_ENUM_MAP[neighborhood]
+      return NEIGHBORHOOD_NAMES_TO_ENUM_MAP[neighborhood];
     }
   }
 }
-

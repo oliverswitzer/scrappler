@@ -1,13 +1,13 @@
-import { ListingSource, Neighborhood } from "./listing";
+import { ListingSource, Neighborhood } from './listing';
 
 export const firestoreConverter: any = {
   toFirestore: (data: any) => {
-    return data
+    return data;
   },
   fromFirestore: (snapshot: any) => {
     const data = snapshot.data({
       serverTimestamps: 'estimate',
-    })
+    });
 
     if (data.neighborhood) {
       const neighborhood = Neighborhood[data.neighborhood as keyof typeof Neighborhood];
@@ -16,12 +16,11 @@ export const firestoreConverter: any = {
       }
 
       const listingSource = ListingSource[data.source as keyof typeof ListingSource];
-      if (listingSource)
-        data.source = listingSource
+      if (listingSource) data.source = listingSource;
     }
 
-    return convertTimestampsToDates(data)
-  }
+    return convertTimestampsToDates(data);
+  },
 };
 
 function convertTimestampsToDates(document: any) {

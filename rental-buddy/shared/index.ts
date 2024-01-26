@@ -1,2 +1,2 @@
-export * from './src/listing'
-export * from './src/firestore-converter'
+export * from './src/listing';
+export * from './src/firestore-converter';

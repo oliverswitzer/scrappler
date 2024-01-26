@@ -1,19 +1,18 @@
-import admin from "firebase-admin";
-import { firestoreConverter, Listing } from "rb-shared";
+import admin from 'firebase-admin';
+import { firestoreConverter, Listing } from 'rb-shared';
 
 export class Firebase {
   private db: admin.firestore.Firestore;
 
   constructor() {
-    const encryptedKey = process.env.ENCRYPTED_FIREBASE_SA_KEY
+    const encryptedKey = process.env.ENCRYPTED_FIREBASE_SA_KEY;
 
-    if (!encryptedKey)
-      throw new Error("Encrypted SA key not set")
+    if (!encryptedKey) throw new Error('Encrypted SA key not set');
 
-    const serviceAccountKey = JSON.parse(Buffer.from(encryptedKey, 'base64').toString())
+    const serviceAccountKey = JSON.parse(Buffer.from(encryptedKey, 'base64').toString());
 
     admin.initializeApp({
-      credential: admin.credential.cert(serviceAccountKey)
+      credential: admin.credential.cert(serviceAccountKey),
     });
 
     this.db = admin.firestore();
@@ -21,9 +20,9 @@ export class Firebase {
 
   async storeListings(listings: Listing[]) {
     const batch = this.db.batch();
-    const streetEasyListingsRef = this.db.collection("listings").withConverter(firestoreConverter);
+    const streetEasyListingsRef = this.db.collection('listings').withConverter(firestoreConverter);
 
-    listings.forEach(listing => {
+    listings.forEach((listing) => {
       const docRef = streetEasyListingsRef.doc(listing.id);
       batch.set(docRef, toSerializable(listing), { merge: true });
     });
@@ -35,5 +34,5 @@ export class Firebase {
 // Necessary to prepare data for serialization into Firestore
 // (handles non-primitive types like URL() objects)
 function toSerializable(obj: object) {
-  return JSON.parse(JSON.stringify(obj))
+  return JSON.parse(JSON.stringify(obj));
 }

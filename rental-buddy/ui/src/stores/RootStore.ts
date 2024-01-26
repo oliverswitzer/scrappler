@@ -1,4 +1,4 @@
-import { SessionStore } from "./SessionStore";
+import { SessionStore } from './SessionStore';
 
 export class RootStore {
   sessionStore: SessionStore;
@@ -6,4 +6,4 @@ export class RootStore {
   constructor() {
     this.sessionStore = new SessionStore(this);
   }
-};
+}

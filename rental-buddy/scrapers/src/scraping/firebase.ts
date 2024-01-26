@@ -21,7 +21,7 @@ export class Firebase {
 
   async storeListings(listings: Listing[]) {
     const batch = this.db.batch();
-    const streetEasyListingsRef = this.db.collection("streeteasy_listings").withConverter(firestoreConverter);
+    const streetEasyListingsRef = this.db.collection("listings").withConverter(firestoreConverter);
 
     listings.forEach(listing => {
       const docRef = streetEasyListingsRef.doc(listing.id);

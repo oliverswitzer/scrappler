@@ -41,9 +41,9 @@ export class Firebase {
   }
 
   async getListings(): Promise<Listing[]> {
-    const { streeteasy_listings } = firestoreCollections<fb.firestore.Firestore>(this.db)
+    const { listings } = firestoreCollections<fb.firestore.Firestore>(this.db)
 
-    return await streeteasy_listings.get().then(snapshot => snapshot.docs.map(doc => doc.data()))
+    return await listings.get().then(snapshot => snapshot.docs.map(doc => doc.data()))
   }
 
   async signOut(): Promise<void> {

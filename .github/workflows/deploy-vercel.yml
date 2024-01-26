@@ -1,0 +1,21 @@
+name: Deploy Firestore
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  firestore:
+    name: Deploy firestore
+    environment: Production
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - name: Deploy to Firebase
+        uses: w9jds/firebase-action@v12.9.0
+        with:
+          args: deploy --only firestore
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}

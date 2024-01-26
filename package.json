@@ -5,8 +5,10 @@
   "scripts": {
     "navy-yard": "cd navy-yard && node_modules/.bin/ts-node src/navy-yard",
     "wework": "cd navy-yard && node_modules/.bin/ts-node src/wework",
-    "rental-buddy:scrape": "cd rental-buddy/scrapers && node_modules/.bin/ts-node index"
+    "rb:scrape": "cd rental-buddy/scrapers && node_modules/.bin/ts-node index",
+    "rb:dev": "cd rental-buddy/ui && npm run dev"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "prettier": "^3.2.4"
+  }
 }

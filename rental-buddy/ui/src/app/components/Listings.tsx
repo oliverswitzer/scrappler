@@ -11,21 +11,23 @@ export const Listings = ({ listings }: { listings: Listing[] }) => {
         <Grid key={`listing-${listing.id}`} item xs={12} sm={12} md={4}>
           <Card className="relative">
             <Carousel autoPlay={false}>
-              {listing.images.map((imgSrc: string, i: number) => (
-                <Paper
-                  className="overflow-clip h-[250px]"
-                  key={`${listing.id}-img-${i}`}
-                  elevation={0}
-                >
-                  <a target="_blank" rel="noopener" href={listing.url.toString()}>
-                    <img
-                      className="w-full h-full object-cover"
-                      src={imgSrc}
-                      alt={`Image of ${listing.address}`}
-                    />
-                  </a>
-                </Paper>
-              ))}
+              {listing.images.map((imgSrc: string, i: number) => {
+                return (
+                  <Paper
+                    className="overflow-clip h-[250px]"
+                    key={`${listing.id}-img-${i}`}
+                    elevation={0}
+                  >
+                    <a target="_blank" rel="noopener" href={listing.url.toString()}>
+                      <img
+                        className="w-full h-full object-cover"
+                        src={imgSrc}
+                        alt={`Image of ${listing.address}`}
+                      />
+                    </a>
+                  </Paper>
+                );
+              })}
             </Carousel>
 
             <CardContent>

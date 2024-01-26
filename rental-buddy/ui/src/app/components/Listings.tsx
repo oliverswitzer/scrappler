@@ -34,8 +34,8 @@ export const Listings = ({ listings }: { listings: Listing[] }) => {
                   {listing.address}
                 </Typography>
                 <Typography color="textSecondary">
-                  Rent: ${listing.rent} - {listing.bedroomCount} Bed, {listing.bathroomCount} Bath,{' '}
-                  {listing.sqFt} sqft
+                  <span className="font-bold">Rent: ${listing.rent}</span> - {listing.bedroomCount}{' '}
+                  Bed, {listing.bathroomCount} Bath, {listing.sqFt} sqft
                 </Typography>
                 <Typography color="textSecondary">
                   Neighborhood: {NEIGHBORHOOD_ENUM_TO_STRING_MAP[listing.neighborhood]}
@@ -43,7 +43,7 @@ export const Listings = ({ listings }: { listings: Listing[] }) => {
               </Link>
             </CardContent>
             <ListingSourceIcon
-              className="absolute bottom-5 right-5"
+              className="opacity-60 absolute z-10 top-5 right-5"
               listingSource={listing.source}
             />
           </Card>

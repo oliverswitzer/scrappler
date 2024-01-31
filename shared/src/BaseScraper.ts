@@ -29,7 +29,7 @@ export class BaseScraper {
     const page = await context.newPage();
 
     if (process.env.NODE_ENV !== 'production') {
-      context.setDefaultTimeout(60000);
+      context.setDefaultTimeout(5000);
       /* console.log("Testing the stealth plugin.."); */
       /* await page.goto("https://bot.sannysoft.com", { */
       /*   waitUntil: "networkidle", */

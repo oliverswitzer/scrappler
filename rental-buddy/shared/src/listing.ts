@@ -13,6 +13,7 @@ export enum Neighborhood {
 
 export enum ListingSource {
   STREET_EASY = 'STREET_EASY',
+  CRAIGSLIST = 'CRAIGSLIST',
 }
 
 export type NeighborhoodNames = { [k in Neighborhood]: string };

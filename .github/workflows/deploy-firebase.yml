@@ -9,7 +9,9 @@ jobs:
   firestore:
     name: Deploy firestore
     environment: Production
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:22.04
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4

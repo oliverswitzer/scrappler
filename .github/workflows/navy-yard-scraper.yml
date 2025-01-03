@@ -5,7 +5,9 @@ on:
     - cron: '0 12 * * 5'
 jobs:
   scrape-navy-yard:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:22.04
     environment: scrape-env
     steps:
       - uses: actions/checkout@v2

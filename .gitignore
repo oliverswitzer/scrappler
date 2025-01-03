@@ -3,3 +3,4 @@
 node_modules
 Brewfile.lock.json
 .vercel
+.aider*

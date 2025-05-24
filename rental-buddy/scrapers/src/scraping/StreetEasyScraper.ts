@@ -59,9 +59,12 @@ export default class StreetEasyScraper extends BaseScraper {
 
     const nextPageButton = await this.nextPageButton();
 
+    const pageListings = await this.getListingsOnPage();
+    listings = listings.concat(pageListings);
+    await nextPageButton.click();
+
     while ((await nextPageButton.count()) > 0) {
       const pageListings = await this.getListingsOnPage();
-
       listings = listings.concat(pageListings);
       await nextPageButton.click();
     }
@@ -174,7 +177,7 @@ async function extractImages(listingEl: ElementHandle<Node>) {
 
     return Array.from((<HTMLElement>_listingEl).querySelectorAll('img'))
       .map((imgEl) => imgEl.src)
-      .map((imgSrc) => imgSrc.replace('medium_500_250', 'large_800_400'));
+      .map((imgSrc) => imgSrc.replace('300x300', '600x450'));
   });
 }
 

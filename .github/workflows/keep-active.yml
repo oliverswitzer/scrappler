@@ -1,0 +1,28 @@
+name: Keep Repository Active
+
+on:
+  schedule:
+    # Run every 2 weeks on Sunday at 12:00 UTC
+    - cron: '0 12 */14 * 0'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  keep-active:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Use a personal access token to trigger other workflows
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+      - name: Configure Git
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+      - name: Make empty commit
+        run: |
+          git commit --allow-empty -m "chore: keep repository active [skip ci]"
+      - name: Push changes
+        run: |
+          git push
